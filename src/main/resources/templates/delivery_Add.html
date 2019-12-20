@@ -37,6 +37,27 @@
                         </div>
                         <label class="layui-form-label" th:text="${date_error}" style="color: red;width: 200px;"></label>
                     </div>
+                    <div class="layui-form-item">
+                        <label for="receiver" class="layui-form-label">
+                            <span class="x-red">*</span>收件人</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="receiver" name="receiver" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="telephone" class="layui-form-label">
+                            <span class="x-red">*</span>手机号码</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="telephone" name="telephone" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="location" class="layui-form-label">
+                            <span class="x-red">*</span>收货地址</label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="location" name="location" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
                     <div class="layui-form-item layui-form-text">
                         <label class="layui-form-label">发货商品</label>
                         <div class="layui-input-block" style="width: 650px;">

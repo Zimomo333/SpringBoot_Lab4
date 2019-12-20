@@ -66,7 +66,9 @@ public class OrderService {
             if(hashMap.get(Integer.toString(contract_item.getItem_Id()))==null)
                 continue;
             if(contract_item.getQuantity()<hashMap.get(Integer.toString(contract_item.getItem_Id())))
-                return 4;   //发货数量超出订单采购数量
+                return 4;   //采购数量超出合同预定数量
+            if(contract_item.getQuantity()==hashMap.get(Integer.toString(contract_item.getItem_Id())))
+                contractDao.finishContract(contract.getContract_Id());  //完成合同
         }
 
         //添加订单

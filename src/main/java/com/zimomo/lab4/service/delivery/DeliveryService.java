@@ -37,7 +37,7 @@ public class DeliveryService {
         return deliveryDao.getAllDelivery();
     }
 
-    public int addDelivery(String order_id,String date,String item_id,String quantity){
+    public int addDelivery(String order_id,String date,String receiver,String telephone,String location,String item_id,String quantity){
         //判断订单id正确性
         Order order=orderDao.findOrderById(Integer.parseInt(order_id));
         if(order==null)
@@ -68,18 +68,21 @@ public class DeliveryService {
                 }
             }
         }
-        for(Order_Item order_item:order.getOrder_itemList()){
-            if(hashMap.get(Integer.toString(order_item.getItem_Id()))==null)
+        for(Order_Item order_item:order.getOrder_itemList()) {
+            if (hashMap.get(Integer.toString(order_item.getItem_Id())) == null)
                 continue;
-            if(order_item.getQuantity()<hashMap.get(Integer.toString(order_item.getItem_Id())))
-                return 5;   //发货数量超出合同订购数量
+            if (order_item.getQuantity() < hashMap.get(Integer.toString(order_item.getItem_Id())))
+                return 5;   //发货数量超出订单订购数量
+            if (order_item.getQuantity() == hashMap.get(Integer.toString(order_item.getItem_Id())))
+                orderDao.finishOrder(order.getOrder_Id());  //完成订单
         }
 
         //添加发货单
-        deliveryDao.addDelivery(Integer.parseInt(order_id),format.parse(date,new ParsePosition(0)));
+        deliveryDao.addDelivery(Integer.parseInt(order_id),format.parse(date,new ParsePosition(0)),receiver,Integer.parseInt(telephone),location);
         int delivery_id=deliveryDao.getLastInsertId();
         for(int i=0;i<item_idArray.length;i++){
             delivery_itemDao.addDeliveryItem(delivery_id,Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
+            itemDao.deliveryItem(Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
         return 6;   //添加成功
     }

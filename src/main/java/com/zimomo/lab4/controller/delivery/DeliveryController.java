@@ -38,10 +38,10 @@ public class DeliveryController {
     }
 
     @RequestMapping("/salesManager/addDelivery")
-    public String addDelivery(Model model, String order_id, String date, String item_id, String quantity) throws Exception {
+    public String addDelivery(Model model, String order_id, String date, String receiver,String telephone,String location, String item_id, String quantity) throws Exception {
         int signal;
         try{
-            signal = deliveryService.addDelivery(order_id, date, item_id, quantity);
+            signal = deliveryService.addDelivery(order_id, date, receiver,telephone, location, item_id, quantity);
         }catch (RuntimeException e){
             signal=7;   //添加失败
         }

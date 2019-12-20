@@ -1,5 +1,6 @@
 package com.zimomo.lab4.service.purchase;
 
+import com.zimomo.lab4.dao.ItemDao;
 import com.zimomo.lab4.dao.order.OrderDao;
 import com.zimomo.lab4.dao.purchase.PurchaseDao;
 import com.zimomo.lab4.dao.purchase.Purchase_ItemDao;
@@ -25,6 +26,9 @@ public class PurchaseService {
 
     @Autowired
     OrderDao orderDao;
+
+    @Autowired
+    ItemDao itemDao;
 
     public List<Purchase> getAllPurchase(){
         return purchaseDao.getAllPurchase();
@@ -56,6 +60,7 @@ public class PurchaseService {
         int purchase_id=purchaseDao.getLastInsertId();
         for(int i=0;i<item_idArray.length;i++){
             purchase_itemDao.addPurchaseItem(purchase_id,Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
+            itemDao.purchaseItem(Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
         return 4;   //添加成功
     }

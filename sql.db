@@ -40,8 +40,11 @@ create table delivery
 (
 	order_id int not null,
 	delivery_id int not null primary key auto_increment,
-	state int not null,
-	date Date not null
+	finish boolean not null,
+	date Date not null,
+	receiver varchar(30) not null,
+	telephone int not null,
+	location varchar(30) not null
 );
 
 create table purchase

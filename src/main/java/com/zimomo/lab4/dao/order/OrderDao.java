@@ -25,6 +25,9 @@ public interface OrderDao {
     @Update("UPDATE ordertable SET totalprice = #{totalprice} WHERE order_id=#{order_id}")
     void updateTotalprice(int order_id,double totalprice);
 
+    @Update("UPDATE ordertable SET finish = true WHERE order_id=#{order_id}")
+    void finishOrder(int order_id);
+
     @Select("SELECT * FROM ordertable WHERE order_id=#{order_id}")
     @Results({
             @Result(property="Order_Id",column="order_id"),

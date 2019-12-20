@@ -18,8 +18,8 @@ public interface DeliveryDao {
     })
     List<Delivery> getAllDelivery();
 
-    @Insert("INSERT INTO delivery (order_id, date,state) VALUES(#{order_id},#{date},0)")
-    void addDelivery(int order_id, Date date);
+    @Insert("INSERT INTO delivery (order_id, date,receiver,telephone,location,finish) VALUES(#{order_id},#{date},#{receiver},#{telephone},#{location},false)")
+    void addDelivery(int order_id, Date date,String receiver,int telephone,String location);
 
     @Select("SELECT * FROM delivery WHERE order_id=#{order_id}")
     @Results({

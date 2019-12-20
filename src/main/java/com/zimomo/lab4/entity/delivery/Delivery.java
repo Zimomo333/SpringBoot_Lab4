@@ -7,8 +7,35 @@ public class Delivery {
     private int Order_Id;
     private int Delivery_Id;
     private List<Delivery_Item> delivery_itemList;
+    private String Receiver;
+    private int Telephone;
+    private String Location;
     private Date date;
-    private int State;
+    private Boolean Finish;
+
+    public String getReceiver() {
+        return Receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        Receiver = receiver;
+    }
+
+    public int getTelephone() {
+        return Telephone;
+    }
+
+    public void setTelephone(int telephone) {
+        Telephone = telephone;
+    }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public void setLocation(String location) {
+        Location = location;
+    }
 
     public Date getDate() {
         return date;
@@ -26,12 +53,12 @@ public class Delivery {
         this.delivery_itemList = delivery_itemList;
     }
 
-    public int getState() {
-        return State;
+    public Boolean getFinish() {
+        return Finish;
     }
 
-    public void setState(int state) {
-        State = state;
+    public void setFinish(Boolean finish) {
+        Finish = finish;
     }
 
     public int getOrder_Id() {

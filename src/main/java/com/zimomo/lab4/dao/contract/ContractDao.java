@@ -33,5 +33,8 @@ public interface ContractDao {
 
     })
     Contract findContractById(int contract_id);
+
+    @Update("UPDATE contract SET finish = true WHERE contract_id=#{contract_id}")
+    void finishContract(int contract_id);
 }
 

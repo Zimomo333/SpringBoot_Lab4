@@ -2,6 +2,7 @@ package com.zimomo.lab4.controller.purchase;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.purchase.Purchase;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -71,5 +74,20 @@ public class PurchaseController {
         List<Item> list = itemService.getAllItem();
         model.addAttribute("itemlist", list);
         return "purchase_Add";
+    }
+
+    @RequestMapping("salesManager/confirmPurchase")
+    @ResponseBody
+    public void confirmPurchase(String purchase_id) {
+        purchaseService.confirmPurchase(purchase_id);
+    }
+
+    @RequestMapping("salesManager/refreshPurchaseList")
+    public String refreshPurchaseList(Model model, int pageNum) {
+        PageHelper.startPage(pageNum, 5);
+        List<Purchase> list = purchaseService.getAllPurchase();
+        PageInfo<Purchase> pageInfo = new PageInfo<Purchase>(list);
+        model.addAttribute("pageInfo", pageInfo);
+        return "purchase_List::refresh";
     }
 }

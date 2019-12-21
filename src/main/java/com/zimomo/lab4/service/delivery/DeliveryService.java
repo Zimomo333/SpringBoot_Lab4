@@ -11,6 +11,7 @@ import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.order.Order_Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class DeliveryService {
     @Autowired
     DeliveryDao deliveryDao;

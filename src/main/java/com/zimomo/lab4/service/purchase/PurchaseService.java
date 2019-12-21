@@ -6,8 +6,10 @@ import com.zimomo.lab4.dao.purchase.PurchaseDao;
 import com.zimomo.lab4.dao.purchase.Purchase_ItemDao;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.purchase.Purchase;
+import com.zimomo.lab4.entity.purchase.Purchase_Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.DateFormat;
 import java.text.ParsePosition;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @Service
+@Transactional
 public class PurchaseService {
     @Autowired
     PurchaseDao purchaseDao;
@@ -60,8 +63,16 @@ public class PurchaseService {
         int purchase_id=purchaseDao.getLastInsertId();
         for(int i=0;i<item_idArray.length;i++){
             purchase_itemDao.addPurchaseItem(purchase_id,Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
-            itemDao.purchaseItem(Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
         return 4;   //添加成功
+    }
+
+    //确认进货
+    public void confirmPurchase(String purchase_id){
+        Purchase purchase=purchaseDao.findPurchaseById(Integer.parseInt(purchase_id));
+        for(Purchase_Item purchase_item : purchase.getPurchase_itemList()){
+            itemDao.purchaseItem(purchase_item.getItem_Id(),purchase_item.getQuantity());
+        }
+        purchaseDao.confirmPurchase(Integer.parseInt(purchase_id));
     }
 }

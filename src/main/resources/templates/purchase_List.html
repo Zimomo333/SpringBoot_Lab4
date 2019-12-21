@@ -55,7 +55,7 @@
                             <button class="layui-btn" onclick="xadmin.open('添加进货单','/salesManager/addPurchasePage',800,600)">
                                 <i class="layui-icon"></i>添加进货单</button></div>
                         <div class="layui-card-body ">
-                            <table class="layui-table layui-form">
+                            <table class="layui-table layui-form" id="refresh" th:fragment="refresh">
                                 <thead>
                                     <tr>
                                         <th>进货单编号</th>
@@ -78,7 +78,7 @@
                                         <td th:text="${purchase.Date}"></td>
                                         <td th:text="${purchase.Finish}"></td>
                                         <td class="td-manage">
-                                            <a title="查看" onclick="xadmin.open('编辑','order_view.html')" href="javascript:;">
+                                            <a title="确认进货" th:onclick="|confirmPurchase(${purchase.Purchase_Id},${pageInfo.pageNum})|" href="javascript:;" th:if="${purchase.Finish}==false">
                                                 <i class="layui-icon">&#xe63c;</i></a>
                                             <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
                                                 <i class="layui-icon">&#xe640;</i></a>
@@ -185,6 +185,29 @@
             });
         }
 
+    function confirmPurchase(purchase_id,pageNum) {
+        layer.confirm('确认进货吗？',
+            function() {
+                //发异步删除数据
+                $.ajax({
+                    url:'/salesManager/confirmPurchase?purchase_id='+purchase_id,
+                    type:"GET",
+                    success:function (res) {
+                        layer.msg('确认成功!', {
+                            icon: 1,
+                            time: 1000
+                        });
+                        $('#refresh').load("/salesManager/refreshPurchaseList?pageNum="+pageNum);
+                    },
+                    error:function () {
+                        layer.msg('确认失败!请重试！', {
+                            icon: 1,
+                            time: 1000
+                        });
+                    }
+                })
+            });
+    }
     </script>
 
 </html>

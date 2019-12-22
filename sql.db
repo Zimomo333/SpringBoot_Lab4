@@ -90,3 +90,11 @@ create table item
   itemprice double not null,
   resquantity int not null
 )
+
+create table deliveryinfo
+(
+	delivery_id int not null primary,
+	postman varchar(30) not null,
+	telephone int not null,
+);
+

@@ -2,9 +2,9 @@ package com.zimomo.lab4.service.delivery;
 
 import com.zimomo.lab4.dao.ItemDao;
 import com.zimomo.lab4.dao.delivery.DeliveryDao;
+import com.zimomo.lab4.dao.delivery.DeliveryInfoDao;
 import com.zimomo.lab4.dao.delivery.Delivery_ItemDao;
 import com.zimomo.lab4.dao.order.OrderDao;
-import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.entity.delivery.Delivery_Item;
 import com.zimomo.lab4.entity.order.Order;
@@ -25,6 +25,9 @@ import java.util.regex.Pattern;
 public class DeliveryService {
     @Autowired
     DeliveryDao deliveryDao;
+
+    @Autowired
+    DeliveryInfoDao deliveryInfoDao;
 
     @Autowired
     Delivery_ItemDao delivery_itemDao;
@@ -87,5 +90,16 @@ public class DeliveryService {
             itemDao.deliveryItem(Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
         return 6;   //添加成功
+    }
+
+    public int confirmDelivery(String delivery_id, String postman, String telephone){
+        Delivery delivery = deliveryDao.findDeliveryById(Integer.parseInt(delivery_id));
+        if(delivery==null)
+            return 0;   //发货单id无效
+
+
+        deliveryDao.confirmDelivery(Integer.parseInt(delivery_id));
+        deliveryInfoDao.addDeliveryInfo(Integer.parseInt(delivery_id),postman,Integer.parseInt(telephone));
+        return 1;   //确认成功
     }
 }

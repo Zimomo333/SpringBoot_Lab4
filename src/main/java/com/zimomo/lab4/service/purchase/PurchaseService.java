@@ -75,4 +75,8 @@ public class PurchaseService {
         }
         purchaseDao.confirmPurchase(Integer.parseInt(purchase_id));
     }
+
+    public void delPurchase(String purchase_id){
+        purchaseDao.delPurchase(Integer.parseInt(purchase_id));
+    }
 }

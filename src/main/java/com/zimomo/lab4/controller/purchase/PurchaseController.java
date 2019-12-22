@@ -2,9 +2,7 @@ package com.zimomo.lab4.controller.purchase;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zimomo.lab4.entity.Item;
-import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.purchase.Purchase;
 import com.zimomo.lab4.service.ItemService;
 import com.zimomo.lab4.service.purchase.PurchaseService;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -25,7 +22,7 @@ public class PurchaseController {
     @Autowired
     ItemService itemService;
 
-    @RequestMapping("/salesManager/getAllPurchase")
+    @RequestMapping("/salesManager_keeper/getAllPurchase")
     public String getAllPurchase(Model model, int pageNum){
         PageHelper.startPage(pageNum,5);
         List<Purchase> list = purchaseService.getAllPurchase();
@@ -76,13 +73,14 @@ public class PurchaseController {
         return "purchase_Add";
     }
 
-    @RequestMapping("salesManager/confirmPurchase")
+    @RequestMapping("keeper/confirmPurchase")
     @ResponseBody
     public void confirmPurchase(String purchase_id) {
         purchaseService.confirmPurchase(purchase_id);
     }
+    //不加ResponseBody时，返回null，前端显示500错误
 
-    @RequestMapping("salesManager/refreshPurchaseList")
+    @RequestMapping("keeper/refreshPurchaseList")
     public String refreshPurchaseList(Model model, int pageNum) {
         PageHelper.startPage(pageNum, 5);
         List<Purchase> list = purchaseService.getAllPurchase();
@@ -90,4 +88,11 @@ public class PurchaseController {
         model.addAttribute("pageInfo", pageInfo);
         return "purchase_List::refresh";
     }
+
+    @RequestMapping("salesManager/delPurchase")
+    @ResponseBody
+    public void delPurchase(String purchase_id) {
+        purchaseService.delPurchase(purchase_id);
+    }
+
 }

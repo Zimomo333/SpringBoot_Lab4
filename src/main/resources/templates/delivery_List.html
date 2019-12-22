@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm">
+<html xmlns:th="http://www.thymeleaf.org" class="x-admin-sm"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     
     <head>
         <meta charset="UTF-8">
@@ -52,7 +53,7 @@
                                 </div>
                             </form>
                         </div>
-                        <div class="layui-card-header">
+                        <div class="layui-card-header" sec:authorize="hasRole('SalesManager')">
                             <button class="layui-btn" onclick="xadmin.open('添加发货单','/salesManager/addDeliveryPage',800,600)">
                                 <i class="layui-icon"></i>添加发货单</button></div>
                         <div class="layui-card-body ">
@@ -67,7 +68,8 @@
                                         <th>手机号码</th>
                                         <th>收货地址</th>
                                         <th>发货状态</th>
-                                        <th>操作</th></tr>
+                                        <th>物流信息</th>
+                                        <th sec:authorize="hasRole('Keeper')" >操作</th></tr>
                                 </thead>
                                 <tbody>
                                     <tr th:each="delivery:${pageInfo.list}">
@@ -84,11 +86,12 @@
                                         <td th:text="${delivery.Telephone}"></td>
                                         <td th:text="${delivery.Location}"></td>
                                         <td th:text="${delivery.Finish}"></td>
-                                        <td class="td-manage">
-                                            <a title="查看" onclick="xadmin.open('编辑','order_view.html')" href="javascript:;">
-                                                <i class="layui-icon">&#xe63c;</i></a>
-                                            <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
-                                                <i class="layui-icon">&#xe640;</i></a>
+                                        <td>
+                                            快递员：<a th:text="${delivery.deliveryInfo.Postman}" th:if="${delivery.deliveryInfo}!=null"></a><br>
+                                            联系电话：<a th:text="${delivery.deliveryInfo.Telephone}" th:if="${delivery.deliveryInfo}!=null"></a>
+                                        </td>
+                                        <td class="td-manage" sec:authorize="hasRole('Keeper')">
+                                            <button class="layui-btn" th:onclick="|openConfirmPage(${delivery.Delivery_Id})|" href="javascript:;" th:if="${delivery.deliveryInfo}==null">确认发货</button>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -148,50 +151,9 @@
             });
         });
 
-        /*用户-停用*/
-        function member_stop(obj, id) {
-            layer.confirm('确认要停用吗？',
-            function(index) {
-
-                if ($(obj).attr('title') == '启用') {
-
-                    //发异步把用户状态进行更改
-                    $(obj).attr('title', '停用');
-                    $(obj).find('i').html('&#xe62f;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                    layer.msg('已停用!', {
-                        icon: 5,
-                        time: 1000
-                    });
-
-                } else {
-                    $(obj).attr('title', '启用');
-                    $(obj).find('i').html('&#xe601;');
-
-                    $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                    layer.msg('已启用!', {
-                        icon: 5,
-                        time: 1000
-                    });
-                }
-
-            });
+        function openConfirmPage(delivery_id) {
+            xadmin.open('确认发货','/keeper/addDeliveryInfoPage?delivery_id='+delivery_id,600,400);
         }
-
-        /*用户-删除*/
-        function member_del(obj, id) {
-            layer.confirm('确认要删除吗？',
-            function(index) {
-                //发异步删除数据
-                $(obj).parents("tr").remove();
-                layer.msg('已删除!', {
-                    icon: 1,
-                    time: 1000
-                });
-            });
-        }
-
     </script>
 
 </html>

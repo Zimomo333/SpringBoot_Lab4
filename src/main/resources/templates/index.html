@@ -103,14 +103,16 @@
                                 <cite>订单管理</cite>
                             </a>
                         </li>
+                    </div>
+                    <div sec:authorize="hasAnyRole('SalesManager','Keeper')">
                         <li>
-                            <a href="javascript:;" onclick="xadmin.add_tab('发货管理','/salesManager/getAllDelivery?pageNum=1')">
+                            <a href="javascript:;" onclick="xadmin.add_tab('发货管理','/salesManager_keeper/getAllDelivery?pageNum=1')">
                                 <i class="iconfont left-nav-li" lay-tips="发货管理">&#xe723;</i>
                                 <cite>发货管理</cite>
                             </a>
                         </li>
                         <li>
-                            <a href="javascript:;" onclick="xadmin.add_tab('进货管理','/salesManager/getAllPurchase?pageNum=1')">
+                            <a href="javascript:;" onclick="xadmin.add_tab('进货管理','/salesManager_keeper/getAllPurchase?pageNum=1')">
                                 <i class="iconfont left-nav-li" lay-tips="进货管理">&#xe723;</i>
                                 <cite>进货管理</cite>
                             </a>
@@ -124,6 +126,7 @@
                             </a>
                         </li>
                     </div>
+                    <div sec:authorize="hasAnyRole('Salesman','SalesManager')">
                     <li>
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="业绩统计">&#xe6ce;</i>
@@ -132,24 +135,7 @@
                         <ul class="sub-menu">
                         </ul>
                     </li>
-                    <li>
-                        <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="其它页面">&#xe6b4;</i>
-                            <cite>其它页面</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
-                        <ul class="sub-menu">
-                            <li>
-                                <a href="login.html" target="_blank">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>登录页面</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('错误页面','error.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>错误页面</cite></a>
-                            </li>
-                        </ul>
-                    </li>
+                    </div>
                 </ul>
             </div>
         </div>

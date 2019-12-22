@@ -14,7 +14,8 @@ public interface DeliveryDao {
     @Select("SELECT * FROM delivery")
     @Results({
             @Result(property="Delivery_Id",column="delivery_id"),
-            @Result(property = "delivery_itemList",column ="delivery_id", many = @Many(select = "com.zimomo.lab4.dao.delivery.Delivery_ItemDao.findDeliveryItem"))
+            @Result(property = "delivery_itemList",column ="delivery_id", many = @Many(select = "com.zimomo.lab4.dao.delivery.Delivery_ItemDao.findDeliveryItemById")),
+            @Result(property = "deliveryInfo",column = "delivery_id", one = @One(select = "com.zimomo.lab4.dao.delivery.DeliveryInfoDao.findDeliveryInfoById"))
     })
     List<Delivery> getAllDelivery();
 
@@ -24,10 +25,22 @@ public interface DeliveryDao {
     @Select("SELECT * FROM delivery WHERE order_id=#{order_id}")
     @Results({
             @Result(property="Delivery_Id",column="delivery_id"),
-            @Result(property = "delivery_itemList",column ="delivery_id", many = @Many(select = "com.zimomo.lab4.dao.delivery.Delivery_ItemDao.findDeliveryItem"))
+            @Result(property = "delivery_itemList",column ="delivery_id", many = @Many(select = "com.zimomo.lab4.dao.delivery.Delivery_ItemDao.findDeliveryItemById"))
+//            @Result(property = "DeliveryInfo",column = "delivery_id", one = @One(select = "com.zimomo.lab4.dao.delivery.DeliveryInfoDao.findDeliveryInfoById"))
     })
     List<Delivery> findDeliveryByOrderId(int order_id);
 
     @Select("SELECT LAST_INSERT_ID()")
     int getLastInsertId();
+
+    @Update("UPDATE delivery SET finish = true WHERE delivery_id=#{delivery_id}")
+    void confirmDelivery(int delivery_id);
+
+    @Select("SELECT * FROM delivery WHERE delivery_id=#{delivery_id}")
+    @Results({
+            @Result(property="Delivery_Id",column="delivery_id"),
+            @Result(property = "delivery_itemList",column ="delivery_id", many = @Many(select = "com.zimomo.lab4.dao.delivery.Delivery_ItemDao.findDeliveryItemById"))
+//            @Result(property = "deliveryInfo",column = "delivery_id", one = @One(select = "com.zimomo.lab4.dao.delivery.DeliveryInfoDao.findDeliveryInfoById"))
+    })
+    Delivery findDeliveryById(int delivery_id);
 }

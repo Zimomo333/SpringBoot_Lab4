@@ -33,4 +33,7 @@ public interface PurchaseDao {
 
     @Update("UPDATE purchase SET finish = true WHERE purchase_id=#{purchase_id}")
     void confirmPurchase(int purchase_id);
+
+    @Delete("DELETE FROM purchase WHERE purchase_id=#{purchase_id}")
+    void delPurchase(int purchase_id);
 }

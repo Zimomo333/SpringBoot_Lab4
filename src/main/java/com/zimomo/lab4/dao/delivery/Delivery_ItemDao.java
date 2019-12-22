@@ -14,7 +14,7 @@ public interface Delivery_ItemDao {
             @Result(property = "Item_Id",column = "item_id"),
             @Result(property = "Item",column="item_id",one = @One(select = "com.zimomo.lab4.dao.ItemDao.findItemById"))
     })
-    public List<Delivery_Item> findDeliveryItem(String delivery_id);
+    public List<Delivery_Item> findDeliveryItemById(String delivery_id);
 
     @Insert("INSERT INTO delivery_item VALUES(#{delivery_id},#{item_id},#{quantity})")
     void addDeliveryItem(int delivery_id,int item_id,int quantity);

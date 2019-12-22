@@ -22,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").hasAnyRole("Salesman","SalesManager","Keeper")
                 .antMatchers("/salesman/**").hasRole("Salesman")
                 .antMatchers("/salesManager/**").hasRole("SalesManager")
+                .antMatchers("/salesManager_keeper/**").hasAnyRole("SalesManager","Keeper")
+                .antMatchers("/keeper/**").hasRole("Keeper")
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()

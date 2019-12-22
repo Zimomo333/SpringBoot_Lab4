@@ -21,8 +21,8 @@ public class DeliveryController {
     @Autowired
     ItemService itemService;
 
-    @RequestMapping("/salesManager/getAllDelivery")
-    public String getAllContract(Model model, int pageNum){
+    @RequestMapping("/salesManager_keeper/getAllDelivery")
+    public String getAllDelivery(Model model, int pageNum){
         PageHelper.startPage(pageNum,5);
         List<Delivery> list = deliveryService.getAllDelivery();
         PageInfo<Delivery> pageInfo = new PageInfo<Delivery>(list);
@@ -76,5 +76,28 @@ public class DeliveryController {
         List<Item> list = itemService.getAllItem();
         model.addAttribute("itemlist", list);
         return "delivery_Add";
+    }
+
+    @RequestMapping("keeper/confirmDelivery")
+    public String confirmDelivery(Model model,String delivery_id,String postman,String telephone) {
+        int signal;
+//        try {
+            signal = deliveryService.confirmDelivery(delivery_id, postman, telephone);
+//        } catch (RuntimeException e) {
+//            signal = 2;   //确认失败
+//        }
+
+        switch (signal) {
+            case 0:
+                model.addAttribute("delivery_error", "发货单编号不存在！请重新输入");
+                break;
+            case 1:
+                model.addAttribute("result", "确认发货成功！");
+                break;
+            case 2:
+                model.addAttribute("result", "确认发货失败！请重试！");
+                break;
+        }
+        return "deliveryInfo_Add";
     }
 }

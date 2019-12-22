@@ -7,11 +7,20 @@ public class Delivery {
     private int Order_Id;
     private int Delivery_Id;
     private List<Delivery_Item> delivery_itemList;
+    private DeliveryInfo deliveryInfo;
     private String Receiver;
     private int Telephone;
     private String Location;
     private Date date;
     private Boolean Finish;
+
+    public DeliveryInfo getDeliveryInfo() {
+        return deliveryInfo;
+    }
+
+    public void setDeliveryInfo(DeliveryInfo deliveryInfo) {
+        this.deliveryInfo = deliveryInfo;
+    }
 
     public String getReceiver() {
         return Receiver;

@@ -99,7 +99,7 @@ public class DeliveryService {
 
 
         deliveryDao.confirmDelivery(Integer.parseInt(delivery_id));
-        deliveryInfoDao.addDeliveryInfo(Integer.parseInt(delivery_id),postman,Integer.parseInt(telephone));
+        deliveryInfoDao.addDeliveryInfo(Integer.parseInt(delivery_id),postman,telephone);
         return 1;   //确认成功
     }
 }

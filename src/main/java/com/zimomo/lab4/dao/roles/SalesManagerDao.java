@@ -10,4 +10,6 @@ import java.util.List;
 @Repository
 @Mapper
 public interface SalesManagerDao {
+    @Select("SELECT * FROM salesmanager WHERE manager_id=#{manager_id}")
+    SalesManager findSalesManagerById(int manager_id);
 }

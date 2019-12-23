@@ -15,5 +15,5 @@ public interface DeliveryInfoDao {
     DeliveryInfo findDeliveryInfoById(int delivery_id);
 
     @Insert("INSERT INTO deliveryinfo VALUES(#{delivery_id},#{postman},#{telephone})")
-    void addDeliveryInfo(int delivery_id,String postman,int telephone);
+    void addDeliveryInfo(int delivery_id,String postman,String telephone);
 }

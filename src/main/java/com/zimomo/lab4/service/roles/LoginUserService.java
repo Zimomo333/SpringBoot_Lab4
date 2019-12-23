@@ -26,4 +26,6 @@ public class LoginUserService {
     public void delete(int employee_id){
         loginUserDao.delete(employee_id);
     }
+
+
 }

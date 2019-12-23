@@ -15,4 +15,9 @@ public class ItemService {
     public List<Item> getAllItem(){
         return itemDao.getAllItem();
     }
+
+    public int addItem(String itemname,String itemprice){
+        itemDao.addItem(itemname,Double.parseDouble(itemprice));
+        return 1;
+    }
 }

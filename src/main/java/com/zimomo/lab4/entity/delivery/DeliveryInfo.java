@@ -3,7 +3,7 @@ package com.zimomo.lab4.entity.delivery;
 public class DeliveryInfo {
     private int Delivery_Id;
     private String Postman;
-    private int Telephone;
+    private String Telephone;
 
     public int getDelivery_Id() {
         return Delivery_Id;
@@ -21,11 +21,11 @@ public class DeliveryInfo {
         Postman = postman;
     }
 
-    public int getTelephone() {
+    public String getTelephone() {
         return Telephone;
     }
 
-    public void setTelephone(int telephone) {
+    public void setTelephone(String telephone) {
         Telephone = telephone;
     }
 }

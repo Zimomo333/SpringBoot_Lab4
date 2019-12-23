@@ -1,10 +1,13 @@
 package com.zimomo.lab4.service.contract;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.zimomo.lab4.dao.contract.ContractDao;
 import com.zimomo.lab4.dao.contract.Contract_ItemDao;
+import com.zimomo.lab4.dao.order.OrderDao;
 import com.zimomo.lab4.dao.roles.CustomerDao;
 import com.zimomo.lab4.dao.roles.SalesmanDao;
 import com.zimomo.lab4.entity.contract.Contract;
+import com.zimomo.lab4.entity.contract.Contract_Item;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.order.Order_Item;
 import com.zimomo.lab4.entity.roles.Customer;
@@ -37,11 +40,14 @@ public class ContractService {
     @Autowired
     SalesmanDao salesmanDao;
 
+    @Autowired
+    OrderDao orderDao;
+
     public List<Contract> getAllContract(){
         return contractDao.getAllContract();
     }
 
-    //查询订单发了多少货
+    //查询合同已经采购多少商品
     public List<Contract> ContractRest(List<Contract> list){
         for(Contract contract:list){
             HashMap<String,Integer> hashMap = new HashMap<String,Integer>();
@@ -56,6 +62,36 @@ public class ContractService {
             contract.setHashMap(hashMap);
         }
         return list;
+    }
+
+    public void checkFinishContract(String order_id){
+        Order temp= orderDao.findOrderById(Integer.parseInt(order_id));
+        int contact_id =temp.getContract_Id();
+        Contract contract = contractDao.findContractById(contact_id);
+        int finish=1;
+        //查询合同采购了多少商品,是否等于合同预订数量
+        HashMap<String,Integer> hashMap = new HashMap<String,Integer>();
+        for (Order order : contract.getOrderList()) {
+            if(!order.getFinish())  //检验合同所属全部订单是否完成
+                finish=0;
+            for(Order_Item order_item : order.getOrder_itemList()){
+                if(hashMap.get(order_item.getItem().getItemName())==null){
+                    hashMap.put(order_item.getItem().getItemName(),order_item.getQuantity());
+                }else
+                    hashMap.put(order_item.getItem().getItemName(),hashMap.get(order_item.getItem().getItemName())+order_item.getQuantity());
+            }
+        }
+        for(Contract_Item contract_item:contract.getContract_itemList()){
+            if(hashMap.get(contract_item.getItem().getItemName())==null) {   //已采购商品hash表中没有合同中的商品，证明未采购，合同未完成，跳出循环
+                finish=0;
+                break;
+            }
+            if(contract_item.getQuantity()>hashMap.get(contract_item.getItem().getItemName()))      //合同某预定商品数量大于所有订单采购数量，未完成
+                finish=0;
+        }
+        if(finish==1){
+            contractDao.finishContract(contract.getContract_Id());
+        }
     }
 
     public int addConotract(String sales_id,String customer_id,String date_begin,String date_end,String item_id,String quantity){

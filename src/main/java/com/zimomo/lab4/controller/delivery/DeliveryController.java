@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.service.ItemService;
+import com.zimomo.lab4.service.contract.ContractService;
 import com.zimomo.lab4.service.delivery.DeliveryService;
 import com.zimomo.lab4.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class DeliveryController {
 
     @Autowired
     OrderService orderService;
+
+    @Autowired
+    ContractService contractService;
 
     @RequestMapping("/salesManager_keeper/getAllDelivery")
     public String getAllDelivery(Model model, int pageNum){
@@ -72,6 +76,7 @@ public class DeliveryController {
             case 6: {
                 model.addAttribute("result", "添加成功！");
                 orderService.checkFinishOrder(order_id);    //每次添加发货单成功都检查订单是否完成
+                contractService.checkFinishContract(order_id);      //每次添加发货单成功都检查合同是否完成
                 break;
             }
             case 7:

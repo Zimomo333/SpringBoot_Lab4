@@ -28,6 +28,7 @@ public class ContractController {
     public String getAllContract(Model model, int pageNum) {
         PageHelper.startPage(pageNum, 5);
         List<Contract> list = contractService.getAllContract();
+        contractService.ContractRest(list);
         PageInfo<Contract> pageInfo = new PageInfo<Contract>(list);
         model.addAttribute("pageInfo", pageInfo);
         return "contract_List";

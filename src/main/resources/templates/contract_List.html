@@ -68,6 +68,7 @@
                                         <th>销售员编号</th>
                                         <th>客户编号</th>
                                         <th>商品清单</th>
+                                        <th>完成进度</th>
                                         <th>签订日期</th>
                                         <th>有效日期</th>
                                         <th>可否变更</th>
@@ -84,6 +85,11 @@
                                             <li th:each="contract_item:${contract.contract_itemList}" >
                                                 <a th:text="${contract_item.Item.ItemName}"></a>，
                                                 订购：<a th:text="${contract_item.Quantity}"></a>件
+                                            </li>
+                                        </td>
+                                        <td>
+                                            <li th:each="hashMap : ${contract.hashMap}">
+                                                <span th:text="${hashMap.key}"></span>，已采购：<span th:text="${hashMap.value}"></span>件
                                             </li>
                                         </td>
                                         <td th:text="${contract.Date_Begin}"></td>

@@ -55,6 +55,33 @@ public class OrderService {
         return list;
     }
 
+    public void checkFinishOrder(String order_id){
+        //查询订单发了多少货,是否等于订单采购数量
+        Order order = orderDao.findOrderById(Integer.parseInt(order_id));
+        HashMap<String,Integer> hashMap_check = new HashMap<String,Integer>();
+        for (Delivery delivery : order.getDeliveryList()) {
+            for(Delivery_Item delivery_item : delivery.getDelivery_itemList()){
+                if(hashMap_check.get(delivery_item.getItem().getItemName())==null){
+                    hashMap_check.put(delivery_item.getItem().getItemName(),delivery_item.getQuantity());
+                }else
+                    hashMap_check.put(delivery_item.getItem().getItemName(),hashMap_check.get(delivery_item.getItem().getItemName())+delivery_item.getQuantity());
+            }
+        }
+        int finish=1;
+        for(Order_Item order_item:order.getOrder_itemList()){
+            if(hashMap_check.get(order_item.getItem().getItemName())==null) {   //已发货商品hash表中没有订单中的商品，证明未发货，订单未完成，跳出循环
+                finish=0;
+                break;
+            }
+            if(order_item.getQuantity()>hashMap_check.get(order_item.getItem().getItemName()))
+                finish=0;
+        }
+        if(finish==1){
+            orderDao.finishOrder(order.getOrder_Id());
+        }
+    }
+
+
     public int addOrder(String contract_id,String date,String item_id,String quantity){
         //判断合同id正确性
         Contract contract=contractDao.findContractById(Integer.parseInt(contract_id));

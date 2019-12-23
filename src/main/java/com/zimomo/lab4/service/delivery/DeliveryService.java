@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -66,6 +67,7 @@ public class DeliveryService {
         for(int i=0;i<item_idArray.length;i++) {
             if(Integer.parseInt(quantityArray[i])>itemDao.findItemById(Integer.parseInt(item_idArray[i])).getResQuantity())
                 return 4;   //发货数量超出库存数量
+            //遍历订单的所有发货单，统计某商品已经发货了多少
             for (Delivery delivery : order.getDeliveryList()) {
                 for(Delivery_Item delivery_item : delivery.getDelivery_itemList()){
                     if(Integer.parseInt(item_idArray[i])==delivery_item.getItem_Id())
@@ -78,8 +80,6 @@ public class DeliveryService {
                 continue;
             if (order_item.getQuantity() < hashMap.get(Integer.toString(order_item.getItem_Id())))
                 return 5;   //发货数量超出订单订购数量
-            if (order_item.getQuantity() == hashMap.get(Integer.toString(order_item.getItem_Id())))
-                orderDao.finishOrder(order.getOrder_Id());  //完成订单
         }
 
         //添加发货单
@@ -89,6 +89,7 @@ public class DeliveryService {
             delivery_itemDao.addDeliveryItem(delivery_id,Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
             itemDao.deliveryItem(Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
+
         return 6;   //添加成功
     }
 

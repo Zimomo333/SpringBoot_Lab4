@@ -6,6 +6,7 @@ import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.service.ItemService;
 import com.zimomo.lab4.service.delivery.DeliveryService;
+import com.zimomo.lab4.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ public class DeliveryController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    OrderService orderService;
 
     @RequestMapping("/salesManager_keeper/getAllDelivery")
     public String getAllDelivery(Model model, int pageNum){
@@ -65,9 +69,11 @@ public class DeliveryController {
             case 5:
                 model.addAttribute("result", "添加失败！发货数量超出订单采购数量！");
                 break;
-            case 6:
-                model.addAttribute("result","添加成功！");
+            case 6: {
+                model.addAttribute("result", "添加成功！");
+                orderService.checkFinishOrder(order_id);    //每次添加发货单成功都检查订单是否完成
                 break;
+            }
             case 7:
                 model.addAttribute("result", "　添加失败！请重试");
                 break;

@@ -5,6 +5,8 @@ import com.zimomo.lab4.dao.contract.Contract_ItemDao;
 import com.zimomo.lab4.dao.roles.CustomerDao;
 import com.zimomo.lab4.dao.roles.SalesmanDao;
 import com.zimomo.lab4.entity.contract.Contract;
+import com.zimomo.lab4.entity.order.Order;
+import com.zimomo.lab4.entity.order.Order_Item;
 import com.zimomo.lab4.entity.roles.Customer;
 import com.zimomo.lab4.entity.roles.Salesman;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -36,6 +39,23 @@ public class ContractService {
 
     public List<Contract> getAllContract(){
         return contractDao.getAllContract();
+    }
+
+    //查询订单发了多少货
+    public List<Contract> ContractRest(List<Contract> list){
+        for(Contract contract:list){
+            HashMap<String,Integer> hashMap = new HashMap<String,Integer>();
+            for (Order order : contract.getOrderList()) {
+                for(Order_Item order_item : order.getOrder_itemList()){
+                    if(hashMap.get(order_item.getItem().getItemName())==null){
+                        hashMap.put(order_item.getItem().getItemName(),order_item.getQuantity());
+                    }else
+                        hashMap.put(order_item.getItem().getItemName(),hashMap.get(order_item.getItem().getItemName())+order_item.getQuantity());
+                }
+            }
+            contract.setHashMap(hashMap);
+        }
+        return list;
     }
 
     public int addConotract(String sales_id,String customer_id,String date_begin,String date_end,String item_id,String quantity){

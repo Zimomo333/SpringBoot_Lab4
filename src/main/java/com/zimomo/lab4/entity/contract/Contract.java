@@ -3,6 +3,7 @@ package com.zimomo.lab4.entity.contract;
 import com.zimomo.lab4.entity.order.Order;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Contract {
@@ -15,6 +16,15 @@ public class Contract {
     private Boolean Finish;
     private List<Contract_Item> contract_itemList;
     private List<Order> orderList;
+    private HashMap<String,Integer> hashMap;
+
+    public HashMap<String, Integer> getHashMap() {
+        return hashMap;
+    }
+
+    public void setHashMap(HashMap<String, Integer> hashMap) {
+        this.hashMap = hashMap;
+    }
 
     public List<Order> getOrderList() {
         return orderList;

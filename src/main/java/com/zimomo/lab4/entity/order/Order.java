@@ -3,6 +3,7 @@ package com.zimomo.lab4.entity.order;
 import com.zimomo.lab4.entity.delivery.Delivery;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class Order {
@@ -13,6 +14,15 @@ public class Order {
     private double TotalPrice;
     private Boolean Finish;
     private List<Delivery> deliveryList;
+    private HashMap<String,Integer> hashMap;
+
+    public HashMap<String, Integer> getHashMap() {
+        return hashMap;
+    }
+
+    public void setHashMap(HashMap<String, Integer> hashMap) {
+        this.hashMap = hashMap;
+    }
 
     public List<Delivery> getDeliveryList() {
         return deliveryList;

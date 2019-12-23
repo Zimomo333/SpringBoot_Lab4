@@ -29,18 +29,8 @@ public class OrderController {
     public String getAllContract(Model model, int pageNum){
         PageHelper.startPage(pageNum,5);
         List<Order> list = orderService.getAllOrder();
+        orderService.OrderRest(list);
         PageInfo<Order> pageInfo = new PageInfo<Order>(list);
-//        List<HashMap<String,Integer>> hashMapList=new ArrayList<HashMap<String,Integer>>();
-//        for(Order order:list){
-//            HashMap<String,Integer> hashMap = new HashMap<String,Integer>();
-//            for (Delivery delivery : order.getDeliveryList()) {
-//                for(Delivery_Item delivery_item : delivery.getDelivery_itemList()){
-//                    hashMap.put(Integer.toString(delivery_item.getItem_Id()),delivery_item.getQuantity());
-//                }
-//            }
-//            hashMapList.add(hashMap);
-//        }
-//        model.addAttribute("hashMapList",hashMapList);
         model.addAttribute("pageInfo",pageInfo);
         return "order_List";
     }

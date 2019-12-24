@@ -19,7 +19,8 @@
             用户名:<input type="text" value="Username" name="username" onfocus="this.value = '';" >
             <span class="glyphicon glyphicon-lock" aria-hidden="true"></span>
             密码:　<input type="password" value="Password" name="password" onfocus="this.value = '';" >
-            <div class="login-button">
+            <span style="color:red" th:if="${param.error}" th:text="用户名或密码错误，请重新输入！"></span>
+            <div class="login-button" style="padding-top: 15px;">
                 <input value="登录" type="submit" style="text-align: center;">
             </div>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>

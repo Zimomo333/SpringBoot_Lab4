@@ -147,4 +147,16 @@ public class OrderService {
         }
         return total;
     }
+
+    public double customerAnalyse(String customer_id){
+        double total=0;
+        List<Contract> contractList = contractDao.findContractByCustomerId(Integer.parseInt(customer_id));
+        for(Contract contract:contractList){
+            List<Order> orderList = contract.getOrderList();
+            for(Order order:orderList){
+                total+=order.getTotalPrice();
+            }
+        }
+        return total;
+    }
 }

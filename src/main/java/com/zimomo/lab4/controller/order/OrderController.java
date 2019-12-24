@@ -3,6 +3,7 @@ package com.zimomo.lab4.controller.order;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sun.org.apache.xpath.internal.operations.Mod;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.contract.Contract;
 import com.zimomo.lab4.entity.delivery.Delivery;
@@ -98,5 +99,17 @@ public class OrderController {
         double total = orderService.dateAnalyse(date_begin,date_end);
         model.addAttribute("total",total);
         return "dateAnalyse";
+    }
+
+    @RequestMapping("/salesManager/customerAnalysePage")
+    public String customerAnalysePage(Model model){
+        return "customerAnalyse";
+    }
+
+    @RequestMapping("/salesManager/customerAnalyse")
+    public String customerAnalyse(Model model,String customer_id){
+        double total=orderService.customerAnalyse(customer_id);
+        model.addAttribute("total",total);
+        return "customerAnalyse";
     }
 }

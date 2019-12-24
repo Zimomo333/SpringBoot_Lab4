@@ -50,5 +50,14 @@ public interface ContractDao {
 
     @Update("UPDATE contract SET edit = false WHERE contract_id=#{contract_id}")
     void changeEdit(int contract_id);
+
+    @Select("SELECT * FROM contract WHERE customer_id=#{customer_id}")
+    @Results({
+            @Result(property="Contract_Id",column="contract_id"),
+            @Result(property = "contract_itemList",column ="contract_id", many = @Many(select = "com.zimomo.lab4.dao.contract.Contract_ItemDao.findContractItem")),
+            @Result(property = "orderList",column = "contract_id",many=@Many(select = "com.zimomo.lab4.dao.order.OrderDao.findOrderByContractId"))
+
+    })
+    List<Contract> findContractByCustomerId(int customer_id);
 }
 

@@ -29,14 +29,17 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5">
+                            <form class="layui-form layui-col-space5" action="/salesManager/customerAnalyse">
                                 <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="username"  placeholder="请输入客户编号" autocomplete="off" class="layui-input">
+                                    <input type="text" name="customer_id"  placeholder="请输入客户编号" autocomplete="off" class="layui-input">
                                 </div>
                                 <div class="layui-inline layui-show-xs-block">
                                     <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
                                 </div>
                             </form>
+                        </div>
+                        <div class="layui-card" style="font-size: 20px;padding-left: 20px;">
+                            销售总额：<span th:text="${total}"></span><span th:text="0.0" th:if="${total}==null"></span>　元
                         </div>
                     </div>
                 </div>

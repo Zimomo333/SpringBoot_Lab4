@@ -87,9 +87,10 @@
                                                 <span th:text="${hashMap.key}"></span>，已发货：<span th:text="${hashMap.value}"></span>件
                                             </li>
                                         </td>
-                                        <td th:text="${order.Date}"></td>
+                                        <td th:text="${#dates.format(order.Date,'yyyy-MM-dd')}"></td>
                                         <td th:text="${order.TotalPrice}"></td>
-                                        <td th:text="${order.Finish}"></td>
+                                        <td th:text="已完成" th:if="${order.Finish}==true"></td>
+                                        <td th:text="未完成" th:if="${order.Finish}==false"></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -75,11 +75,12 @@
                                                 发货：<a th:text="${delivery_item.Quantity}"></a>件
                                             </li>
                                         </td>
-                                        <td th:text="${delivery.Date}"></td>
+                                        <td th:text="${#dates.format(delivery.Date,'yyyy-MM-dd')}"></td>
                                         <td th:text="${delivery.Receiver}"></td>
                                         <td th:text="${delivery.Telephone}"></td>
                                         <td th:text="${delivery.Location}"></td>
-                                        <td th:text="${delivery.Finish}"></td>
+                                        <td th:text="已发货" th:if="${delivery.Finish}==true"></td>
+                                        <td th:text="未发货" th:if="${delivery.Finish}==false"></td>
                                         <td>
                                             快递员：<a th:text="${delivery.deliveryInfo.Postman}" th:if="${delivery.deliveryInfo}!=null"></a><br>
                                             联系电话：<a th:text="${delivery.deliveryInfo.Telephone}" th:if="${delivery.deliveryInfo}!=null"></a>

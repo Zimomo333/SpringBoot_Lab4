@@ -70,8 +70,9 @@
                                                 进货：<a th:text="${purchase_item.Quantity}"></a>件
                                             </li>
                                         </td>
-                                        <td th:text="${purchase.Date}"></td>
-                                        <td th:text="${purchase.Finish}"></td>
+                                        <td th:text="${#dates.format(purchase.Date,'yyyy-MM-dd')}"></td>
+                                        <td th:text="已进货" th:if="${purchase.Finish}==true"></td>
+                                        <td th:text="未进货" th:if="${purchase.Finish}==false"></td>
                                         <td class="td-manage">
                                             <button sec:authorize="hasRole('Keeper')" class="layui-btn" th:onclick="|confirmPurchase(${purchase.Purchase_Id},${pageInfo.pageNum})|" href="javascript:;" th:if="${purchase.Finish}==false">确认进货</button>
                                             <a title="删除" sec:authorize="hasRole('SalesManager')" th:onclick="|delPurchase(this,${purchase.Purchase_Id})|" href="javascript:;" th:if="${purchase.Finish}==false">

@@ -92,10 +92,12 @@
                                                 <span th:text="${hashMap.key}"></span>，已采购：<span th:text="${hashMap.value}"></span>件
                                             </li>
                                         </td>
-                                        <td th:text="${contract.Date_Begin}"></td>
-                                        <td th:text="${contract.Date_End}"></td>
-                                        <td th:text="${contract.Edit}"></td>
-                                        <td th:text="${contract.Finish}"></td>
+                                        <td th:text="${#dates.format(contract.Date_Begin,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${#dates.format(contract.Date_End,'yyyy-MM-dd')}"></td>
+                                        <td th:text="可编辑" th:if="${contract.Edit}==true"></td>
+                                        <td th:text="不可编辑" th:if="${contract.Edit}==false"></td>
+                                        <td th:text="已完成" th:if="${contract.Finish}==true"></td>
+                                        <td th:text="未完成" th:if="${contract.Finish}==false"></td>
                                         <td class="td-manage">
                                             <a title="编辑" th:onclick="|openEditPage(${contract.Contract_Id})|" href="javascript:;" th:if="${contract.Edit}==true">
                                                 <i class="layui-icon">&#xe63c;</i></a>

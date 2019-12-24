@@ -3,10 +3,12 @@ package com.zimomo.lab4.controller.order;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zimomo.lab4.entity.Item;
+import com.zimomo.lab4.entity.contract.Contract;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.entity.delivery.Delivery_Item;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.service.ItemService;
+import com.zimomo.lab4.service.contract.ContractService;
 import com.zimomo.lab4.service.order.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,8 +27,11 @@ public class OrderController {
     @Autowired
     ItemService itemService;
 
+    @Autowired
+    ContractService contractService;
+
     @RequestMapping("/salesManager/getAllOrder")
-    public String getAllContract(Model model, int pageNum){
+    public String getAllOrder(Model model, int pageNum){
         PageHelper.startPage(pageNum,5);
         List<Order> list = orderService.getAllOrder();
         orderService.OrderRest(list);
@@ -36,14 +41,14 @@ public class OrderController {
     }
 
     @RequestMapping("/salesManager/addOrderPage")
-    public String addContractPage(Model model) {
+    public String addOrderPage(Model model) {
         List<Item> list = itemService.getAllItem();
         model.addAttribute("itemlist", list);
         return "order_Add";
     }
 
     @RequestMapping("/salesManager/addOrder")
-    public String addContract(Model model, String contract_id, String date, String item_id, String quantity) throws Exception {
+    public String addOrder(Model model, String contract_id, String date, String item_id, String quantity) throws Exception {
         int signal;
         try{
             signal = orderService.addOrder(contract_id, date, item_id, quantity);
@@ -67,9 +72,11 @@ public class OrderController {
             case 4:
                 model.addAttribute("result", "添加失败！采购数量超出合同订购数量！");
                 break;
-            case 5:
-                model.addAttribute("result","添加成功！");
+            case 5: {
+                model.addAttribute("result", "添加成功！");
+                contractService.changeEdit(contract_id);      //合同变为不可编辑状态
                 break;
+            }
             case 6:
                 model.addAttribute("result", "　添加失败！请重试");
                 break;

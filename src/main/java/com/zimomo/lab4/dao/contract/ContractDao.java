@@ -30,6 +30,9 @@ public interface ContractDao {
     @Insert("INSERT INTO contract (sales_id, customer_id, date_begin, date_end, edit, finish) VALUES(#{sales_id},#{customer_id},#{date_begin},#{date_end},true,false)")
     void addContract(int sales_id, int customer_id, Date date_begin, Date date_end);
 
+    @Update("UPDATE contract SET sales_id=#{sales_id},customer_id=#{customer_id},date_begin=#{date_begin},date_end=#{date_end} WHERE contract_id=#{contract_id}")
+    void editContract(int contract_id,int sales_id, int customer_id, Date date_begin, Date date_end);
+
     @Select("SELECT LAST_INSERT_ID()")
     int getLastInsertId();
 
@@ -44,5 +47,8 @@ public interface ContractDao {
 
     @Update("UPDATE contract SET finish = true WHERE contract_id=#{contract_id}")
     void finishContract(int contract_id);
+
+    @Update("UPDATE contract SET edit = false WHERE contract_id=#{contract_id}")
+    void changeEdit(int contract_id);
 }
 

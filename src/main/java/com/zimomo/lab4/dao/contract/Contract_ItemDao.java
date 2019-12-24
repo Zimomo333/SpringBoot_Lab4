@@ -18,4 +18,7 @@ public interface Contract_ItemDao {
 
     @Insert("INSERT INTO contract_item VALUES(#{contract_id},#{item_id},#{quantity})")
     void addContractItem(int contract_id,int item_id,int quantity);
+
+    @Delete("DELETE FROM contract_item WHERE contract_id=#{contract_id}")
+    void delContractItem(int contract_id);
 }

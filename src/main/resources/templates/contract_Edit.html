@@ -20,12 +20,13 @@
     <body>
         <div class="layui-fluid">
             <div class="layui-row">
-                <form class="layui-form" action="/salesManager/addContract">
+                <form class="layui-form" action="/salesManager/editContract">
+                    <input type="hidden" name="contract_id" th:value="${contract_id}">
                     <div class="layui-form-item">
                         <label for="sales_id" class="layui-form-label">
                             <span class="x-red">*</span>销售员编号</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="sales_id" name="sales_id" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="sales_id" name="sales_id" required="" th:value="${sales_id}" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                         <label class="layui-form-label" th:text="${sales_error}" style="color: red;width: 170px;"></label>
                     </div>
@@ -33,7 +34,7 @@
                         <label for="customer_id" class="layui-form-label">
                             <span class="x-red">*</span>客户编号</label>
                         <div class="layui-input-inline">
-                            <input type="text" id="customer_id" name="customer_id" required="" lay-verify="required" autocomplete="off" class="layui-input">
+                            <input type="text" id="customer_id" name="customer_id" required="" th:value="${customer_id}" lay-verify="required" autocomplete="off" class="layui-input">
                         </div>
                         <label class="layui-form-label" th:text="${customer_error}" style="color: red;width: 170px;"></label>
                     </div>
@@ -41,14 +42,14 @@
                         <label for="date_begin" class="layui-form-label">
                             <span class="x-red">*</span>签订日期</label>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" name="date_begin" id="date_begin" lay-verify="required">
+                            <input class="layui-input" name="date_begin" id="date_begin" th:value="${date_begin}" lay-verify="required">
                         </div>
                     </div>
                     <div class="layui-form-item">
                         <label for="date_end" class="layui-form-label">
                             <span class="x-red">*</span>有效日期</label>
                         <div class="layui-input-inline layui-show-xs-block">
-                            <input class="layui-input" name="date_end" id="date_end" lay-verify="required">
+                            <input class="layui-input" name="date_end" id="date_end" th:value="${date_end}" lay-verify="required">
                         </div>
                         <label class="layui-form-label" th:text="${date_error}" style="color: red;width: 200px;"></label>
                     </div>

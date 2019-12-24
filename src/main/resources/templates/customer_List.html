@@ -37,7 +37,7 @@
                             </form>
                         </div>
                         <div class="layui-card-header">
-                            <button class="layui-btn" onclick="xadmin.open('添加客户','./member-add.html',600,400)"><i class="layui-icon"></i>添加客户</button>
+                            <button class="layui-btn" onclick="xadmin.open('添加客户','/salesManager/addCustomerPage',600,400)"><i class="layui-icon"></i>添加客户</button>
                         </div>
                         <div class="layui-card-body layui-table-body layui-table-main">
                             <table class="layui-table layui-form">
@@ -60,13 +60,10 @@
                                       <td th:text="${customer.Email}"></td>
                                       <td th:text="${customer.Location}"></td>
                                       <td class="td-manage">
-                                          <a title="编辑"  onclick="xadmin.open('编辑','member-edit.html',600,400)" href="javascript:;">
+                                          <a title="编辑"  th:onclick="|openEditPage(${customer.Customer_Id})|" href="javascript:;">
                                               <i class="layui-icon">&#xe642;</i>
                                           </a>
-                                          <a onclick="xadmin.open('修改密码','member-password.html',600,400)" title="修改密码" href="javascript:;">
-                                              <i class="layui-icon">&#xe631;</i>
-                                          </a>
-                                          <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+                                          <a title="删除" th:onclick="|delCustomer(this,${customer.Customer_Id})|" href="javascript:;">
                                               <i class="layui-icon">&#xe640;</i>
                                           </a>
                                       </td>
@@ -143,36 +140,30 @@
 
       });
 
-       /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
-              if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
+      function openEditPage(customer_id) {
+          xadmin.open('编辑','/salesManager/editCustomerPage?customer_id='+customer_id,600,400);
       }
 
       /*用户-删除*/
-      function member_del(obj,id){
+      function delCustomer(obj,customer_id){
           layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                  url:'/salesManager/delCustomer?customer_id='+customer_id,
+                  type:"GET",
+                  success:function (res) {
+                      layer.msg('删除成功!', {
+                          icon: 1,
+                          time: 1000
+                      });
+                      $(obj).parents("tr").remove();
+                  },
+                  error:function () {
+                      layer.msg('删除失败!请重试！', {
+                          icon: 1,
+                          time: 1000
+                      });
+                  }
+              })
           });
       }
 

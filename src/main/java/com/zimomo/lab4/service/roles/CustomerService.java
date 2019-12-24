@@ -18,4 +18,18 @@ public class CustomerService {
     }
 
     public Customer findCustomerById(int customer_id){return customerDao.findCustomerById(customer_id);}
+
+    public int addCustomer(String name,String sex,String telephone,String email,String location){
+        customerDao.addCustomer(name,sex,telephone,email,location);
+        return 1;
+    }
+
+    public void delCustomer(String customer_id){
+        customerDao.delCustomer(Integer.parseInt(customer_id));
+    }
+
+    public int editCustomer(String customer_id,String name,String sex,String telephone,String email,String location){
+        customerDao.editCustomer(Integer.parseInt(customer_id),name,sex,telephone,email,location);
+        return 1;
+    }
 }

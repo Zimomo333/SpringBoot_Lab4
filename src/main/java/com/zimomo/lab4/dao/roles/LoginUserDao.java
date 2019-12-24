@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 @Repository
 @Mapper
 public interface LoginUserDao {
-    @Select("SELECT * FROM loginuser WHERE employee_id=#{employee_id}")
-    LoginUser getSingle(int employee_id);
+    @Insert("INSERT INTO loginuser VALUES(#{username},123456,#{employee_id},'ROLE_Salesman')")
+    void addLoginuser(int employee_id,String username);
 
-    @Insert("INSERT INTO loginuser VALUES(#{Username},#{Password},#{Employee_Id},#{Power})")
-    void insert(LoginUser loginUser);
+    @Update("UPDATE loginuser SET password = #{password} WHERE employee_id = #{employee_id}")
+    void changePassword(String password, int employee_id);
 
-    @Update("UPDATE loginuser SET password = #{Password} WHERE employee_id = #{Employee_Id}")
-    void update(String password, int employee_id);
-
-    @Delete("DELETE FROM loginuser WHERE employee_id = #{Employee_Id}")
+    @Delete("DELETE FROM loginuser WHERE employee_id = #{employee_id}")
     void delete(int employee_id);
 
     @Select("SELECT * FROM loginuser WHERE username=#{username}")
     LoginUser findByUsername(String username);
+
+    @Delete("DELETE FROM loginuser WHERE employee_id=#{employee_id}")
+    void delLoginUser(int employee_id);
 }

@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -135,5 +136,15 @@ public class OrderService {
         }
         orderDao.updateTotalprice(order_id,totalprice);
         return 5;   //添加成功
+    }
+
+    public double dateAnalyse(String date_begin, String date_end){
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        List<Order> list = orderDao.dateAnalyse(format.parse(date_begin,new ParsePosition(0)),format.parse(date_end,new ParsePosition(0)));
+        double total=0;
+        for(Order order:list){
+            total+=order.getTotalPrice();
+        }
+        return total;
     }
 }

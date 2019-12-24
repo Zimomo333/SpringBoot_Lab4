@@ -46,4 +46,7 @@ public interface OrderDao {
 
     @Select("SELECT LAST_INSERT_ID()")
     int getLastInsertId();
+
+    @Select("SELECT * FROM ordertable WHERE date>#{date_begin} AND date<#{date_end}")
+    List<Order> dateAnalyse(Date date_begin,Date date_end);
 }

@@ -2,6 +2,7 @@ package com.zimomo.lab4.controller.order;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zimomo.lab4.entity.Item;
 import com.zimomo.lab4.entity.contract.Contract;
 import com.zimomo.lab4.entity.delivery.Delivery;
@@ -87,4 +88,15 @@ public class OrderController {
         return "order_Add";
     }
 
+    @RequestMapping("/salesManager/dateAnalysePage")
+    public String dateAnalysePage(Model model){
+        return "dateAnalyse";
+    }
+
+    @RequestMapping("/salesManager/dateAnalyse")
+    public String dateAnalyse(Model model,String date_begin, String date_end){
+        double total = orderService.dateAnalyse(date_begin,date_end);
+        model.addAttribute("total",total);
+        return "dateAnalyse";
+    }
 }

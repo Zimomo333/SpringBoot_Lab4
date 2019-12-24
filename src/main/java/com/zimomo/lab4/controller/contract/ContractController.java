@@ -81,4 +81,14 @@ public class ContractController {
         model.addAttribute("itemlist", list);
         return "contract_Add";
     }
+
+    @RequestMapping("/salesman/myContract")
+    public String myContract(Model model,int pageNum){
+        PageHelper.startPage(pageNum, 5);
+        List<Contract> list = contractService.myContract();
+        contractService.ContractRest(list);
+        PageInfo<Contract> pageInfo = new PageInfo<Contract>(list);
+        model.addAttribute("pageInfo", pageInfo);
+        return "myContract";
+    }
 }

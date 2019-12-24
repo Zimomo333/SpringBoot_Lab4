@@ -11,8 +11,11 @@ import com.zimomo.lab4.entity.contract.Contract_Item;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.order.Order_Item;
 import com.zimomo.lab4.entity.roles.Customer;
+import com.zimomo.lab4.entity.roles.LoginUser;
 import com.zimomo.lab4.entity.roles.Salesman;
+import com.zimomo.lab4.entity.security.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +48,12 @@ public class ContractService {
 
     public List<Contract> getAllContract(){
         return contractDao.getAllContract();
+    }
+
+    public List<Contract> myContract(){
+        LoginUserDetails loginUserDetails = (LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LoginUser loginUser= loginUserDetails.getLoginUser();
+        return contractDao.myContract(loginUser.getEmployee_Id());
     }
 
     //查询合同已经采购多少商品

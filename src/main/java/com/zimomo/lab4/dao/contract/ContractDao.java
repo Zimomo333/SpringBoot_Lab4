@@ -19,6 +19,14 @@ public interface ContractDao {
     })
     List<Contract> getAllContract();
 
+    @Select("SELECT * FROM contract WHERE sales_id=#{sales_id}")
+    @Results({
+            @Result(property="Contract_Id",column="contract_id"),
+            @Result(property = "contract_itemList",column ="contract_id", many = @Many(select = "com.zimomo.lab4.dao.contract.Contract_ItemDao.findContractItem")),
+            @Result(property = "orderList",column = "contract_id",many=@Many(select = "com.zimomo.lab4.dao.order.OrderDao.findOrderByContractId"))
+    })
+    List<Contract> myContract(int sales_id);
+
     @Insert("INSERT INTO contract (sales_id, customer_id, date_begin, date_end, edit, finish) VALUES(#{sales_id},#{customer_id},#{date_begin},#{date_end},true,false)")
     void addContract(int sales_id, int customer_id, Date date_begin, Date date_end);
 

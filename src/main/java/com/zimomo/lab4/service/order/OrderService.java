@@ -1,6 +1,7 @@
 package com.zimomo.lab4.service.order;
 
 import com.sun.org.apache.xpath.internal.operations.Or;
+import com.zimomo.lab4.dao.ItemDao;
 import com.zimomo.lab4.dao.contract.ContractDao;
 import com.zimomo.lab4.dao.order.OrderDao;
 import com.zimomo.lab4.dao.order.Order_ItemDao;
@@ -156,6 +157,15 @@ public class OrderService {
             for(Order order:orderList){
                 total+=order.getTotalPrice();
             }
+        }
+        return total;
+    }
+
+    public double itemAnalyse(String item_id){
+        double total=0;
+        List<Order_Item> list = order_itemDao.findOrderItemByItemId(Integer.parseInt(item_id));
+        for(Order_Item order_item:list){
+            total+=order_item.getQuantity()*order_item.getItem().getItemPrice();
         }
         return total;
     }

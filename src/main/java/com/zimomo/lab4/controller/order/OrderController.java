@@ -9,9 +9,11 @@ import com.zimomo.lab4.entity.contract.Contract;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.entity.delivery.Delivery_Item;
 import com.zimomo.lab4.entity.order.Order;
+import com.zimomo.lab4.entity.roles.Customer;
 import com.zimomo.lab4.service.ItemService;
 import com.zimomo.lab4.service.contract.ContractService;
 import com.zimomo.lab4.service.order.OrderService;
+import com.zimomo.lab4.service.roles.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +33,9 @@ public class OrderController {
 
     @Autowired
     ContractService contractService;
+
+    @Autowired
+    CustomerService customerService;
 
     @RequestMapping("/salesManager/getAllOrder")
     public String getAllOrder(Model model, int pageNum){
@@ -98,6 +103,8 @@ public class OrderController {
     public String dateAnalyse(Model model,String date_begin, String date_end){
         double total = orderService.dateAnalyse(date_begin,date_end);
         model.addAttribute("total",total);
+        model.addAttribute("date_begin",date_begin);
+        model.addAttribute("date_end",date_end);
         return "dateAnalyse";
     }
 
@@ -110,6 +117,26 @@ public class OrderController {
     public String customerAnalyse(Model model,String customer_id){
         double total=orderService.customerAnalyse(customer_id);
         model.addAttribute("total",total);
+        Customer customer=customerService.findCustomerById(Integer.parseInt(customer_id));
+        model.addAttribute("name",customer.getName());
         return "customerAnalyse";
+    }
+
+    @RequestMapping("/salesManager/itemAnalysePage")
+    public String itemAnalysePage(Model model){
+        List<Item> list = itemService.getAllItem();
+        model.addAttribute("itemlist", list);
+        return "itemAnalyse";
+    }
+
+    @RequestMapping("/salesManager/itemAnalyse")
+    public String itemAnalyse(Model model,String item_id){
+        double total=orderService.itemAnalyse(item_id);
+        model.addAttribute("total",total);
+        List<Item> list = itemService.getAllItem();
+        model.addAttribute("itemlist", list);
+        Item item=itemService.findItemById(item_id);
+        model.addAttribute("itemname",item.getItemName());
+        return "itemAnalyse";
     }
 }

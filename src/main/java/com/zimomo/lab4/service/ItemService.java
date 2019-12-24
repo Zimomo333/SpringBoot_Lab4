@@ -20,4 +20,8 @@ public class ItemService {
         itemDao.addItem(itemname,Double.parseDouble(itemprice));
         return 1;
     }
+
+    public Item findItemById(String item_id){
+        return itemDao.findItemById(Integer.parseInt(item_id));
+    }
 }

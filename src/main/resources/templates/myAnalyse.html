@@ -29,38 +29,41 @@
                 <div class="layui-col-md12">
                     <div class="layui-card">
                         <div class="layui-card-body ">
-                            <form class="layui-form layui-col-space5" action="/salesManager/customerAnalyse">
-                                <div class="layui-inline layui-show-xs-block">
-                                    <input type="text" name="customer_id"  placeholder="请输入客户编号" autocomplete="off" class="layui-input">
+                            <form class="layui-form layui-col-space5" action="/salesman/myAnalyse">
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <input class="layui-input" placeholder="开始日期" name="date_begin" id="date_begin"></div>
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <input class="layui-input" placeholder="结束日期" name="date_end" id="date_end"></div>
+                                <div class="layui-input-inline layui-show-xs-block">
+                                    <button class="layui-btn" lay-submit="" lay-filter="sreach">
+                                        <i class="layui-icon">&#xe615;</i></button>
                                 </div>
-                                <div class="layui-inline layui-show-xs-block">
-                                    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-                                </div>
-                                <label class="layui-form-label" th:text="${customer_error}" style="color: red;width: 120px;" th:if="${customer_error}"></label>
+                                <label class="layui-form-label" th:text="${date_error}" style="color: red;width: 110px;" th:if="${date_error}"></label>
                             </form>
                         </div>
-                        <div class="layui-card" style="font-size: 20px;padding-left: 20px;">
-                            <span th:text="${name}"></span>销售总额：<span th:text="${total}"></span><span th:text="0.0" th:if="${total}==null"></span>　元
-                        </div>
+                    </div>
+                    <div class="layui-card" style="font-size: 20px;padding-left: 20px;">
+                        <span th:text="${date_begin}"></span><span th:text="至" th:if="${date_begin}"></span><span th:text="${date_end}"></span>销售总额：<span th:text="${total}"></span><span th:text="0.0" th:if="${total}==null"></span>　元
                     </div>
                 </div>
             </div>
         </div>
     </body>
-    <script>layui.use(['laydate', 'form'],
-        function() {
-            var laydate = layui.laydate;
+    <script>
+        layui.use(['laydate', 'form'],
+            function() {
+                var laydate = layui.laydate;
 
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#start' //指定元素
-            });
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#date_begin' //指定元素
+                });
 
-            //执行一个laydate实例
-            laydate.render({
-                elem: '#end' //指定元素
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#date_end' //指定元素
+                });
             });
-        });
 
     </script>
 

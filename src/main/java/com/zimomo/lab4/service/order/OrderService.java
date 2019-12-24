@@ -5,13 +5,18 @@ import com.zimomo.lab4.dao.ItemDao;
 import com.zimomo.lab4.dao.contract.ContractDao;
 import com.zimomo.lab4.dao.order.OrderDao;
 import com.zimomo.lab4.dao.order.Order_ItemDao;
+import com.zimomo.lab4.dao.roles.CustomerDao;
 import com.zimomo.lab4.entity.contract.Contract;
 import com.zimomo.lab4.entity.contract.Contract_Item;
 import com.zimomo.lab4.entity.delivery.Delivery;
 import com.zimomo.lab4.entity.delivery.Delivery_Item;
 import com.zimomo.lab4.entity.order.Order;
 import com.zimomo.lab4.entity.order.Order_Item;
+import com.zimomo.lab4.entity.roles.Customer;
+import com.zimomo.lab4.entity.roles.LoginUser;
+import com.zimomo.lab4.entity.security.LoginUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,6 +40,9 @@ public class OrderService {
 
     @Autowired
     ContractDao contractDao;
+
+    @Autowired
+    CustomerDao customerDao;
 
     public List<Order> getAllOrder(){
         return orderDao.getAllOrder();
@@ -128,19 +136,24 @@ public class OrderService {
         for(int i=0;i<item_idArray.length;i++){
             order_itemDao.addOrderItem(order_id,Integer.parseInt(item_idArray[i]),Integer.parseInt(quantityArray[i]));
         }
-
         //更新总金额
         Order order=orderDao.findOrderById(order_id);
         double totalprice=0;
         for(Order_Item order_item : order.getOrder_itemList()){
-            totalprice=order_item.getQuantity()*order_item.getItem().getItemPrice();
+            totalprice+=order_item.getQuantity()*order_item.getItem().getItemPrice();
         }
         orderDao.updateTotalprice(order_id,totalprice);
         return 5;   //添加成功
     }
 
     public double dateAnalyse(String date_begin, String date_end){
+        if(date_begin.equals("")||date_end.equals(""))
+            return -1;
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateBegin=format.parse(date_begin,new ParsePosition(0));
+        Date dateEnd=format.parse(date_end,new ParsePosition(0));
+        if(dateBegin.after(dateEnd))
+            return -1;
         List<Order> list = orderDao.dateAnalyse(format.parse(date_begin,new ParsePosition(0)),format.parse(date_end,new ParsePosition(0)));
         double total=0;
         for(Order order:list){
@@ -150,6 +163,11 @@ public class OrderService {
     }
 
     public double customerAnalyse(String customer_id){
+        if(customer_id.equals(""))
+            return -1;
+        Customer customer = customerDao.findCustomerById(Integer.parseInt(customer_id));
+        if(customer==null)
+            return -1;
         double total=0;
         List<Contract> contractList = contractDao.findContractByCustomerId(Integer.parseInt(customer_id));
         for(Contract contract:contractList){
@@ -162,10 +180,37 @@ public class OrderService {
     }
 
     public double itemAnalyse(String item_id){
+        if(item_id.equals("-1"))
+            return -1;
         double total=0;
         List<Order_Item> list = order_itemDao.findOrderItemByItemId(Integer.parseInt(item_id));
         for(Order_Item order_item:list){
             total+=order_item.getQuantity()*order_item.getItem().getItemPrice();
+        }
+        return total;
+    }
+
+    public double myAnalyse(String date_begin, String date_end){
+        if(date_begin.equals("")||date_end.equals(""))
+            return -1;
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateBegin=format.parse(date_begin,new ParsePosition(0));
+        Date dateEnd=format.parse(date_end,new ParsePosition(0));
+        if(dateBegin.after(dateEnd))
+            return -1;
+
+        LoginUserDetails loginUserDetails = (LoginUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        LoginUser loginUser= loginUserDetails.getLoginUser();
+        //获取销售员所有的合同及其订单
+        List<Contract> contractList = contractDao.findContractBySalesId(loginUser.getEmployee_Id());
+        double total=0;
+        //遍历销售员的订单，若日期符合区间要求，统计销售额
+        for(Contract contract:contractList){
+            List<Order> orderList = contract.getOrderList();
+            for(Order order:orderList){
+                if(order.getDate().after(dateBegin)&&order.getDate().before(dateEnd))
+                    total+=order.getTotalPrice();
+            }
         }
         return total;
     }

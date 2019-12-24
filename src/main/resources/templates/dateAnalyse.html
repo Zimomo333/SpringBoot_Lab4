@@ -38,6 +38,7 @@
                                     <button class="layui-btn" lay-submit="" lay-filter="sreach">
                                         <i class="layui-icon">&#xe615;</i></button>
                                 </div>
+                                <label class="layui-form-label" th:text="${date_error}" style="color: red;width: 110px;" th:if="${date_error}"></label>
                             </form>
                         </div>
                     </div>
@@ -48,9 +49,21 @@
             </div>
         </div>
     </body>
-    <script>layui.use(['form'],
-        function() {
-        });
+    <script>
+        layui.use(['laydate', 'form'],
+            function() {
+                var laydate = layui.laydate;
+
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#date_begin' //指定元素
+                });
+
+                //执行一个laydate实例
+                laydate.render({
+                    elem: '#date_end' //指定元素
+                });
+            });
 
     </script>
 

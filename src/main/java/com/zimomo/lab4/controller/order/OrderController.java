@@ -81,7 +81,7 @@ public class OrderController {
                 break;
             case 5: {
                 model.addAttribute("result", "添加成功！");
-                contractService.changeEdit(contract_id);      //合同变为不可编辑状态
+                contractService.changeEdit(contract_id);    //合同变为不可编辑状态
                 break;
             }
             case 6:
@@ -102,9 +102,13 @@ public class OrderController {
     @RequestMapping("/salesManager/dateAnalyse")
     public String dateAnalyse(Model model,String date_begin, String date_end){
         double total = orderService.dateAnalyse(date_begin,date_end);
-        model.addAttribute("total",total);
-        model.addAttribute("date_begin",date_begin);
-        model.addAttribute("date_end",date_end);
+        if(total==-1){
+            model.addAttribute("date_error", "日期格式错误");
+        } else {
+            model.addAttribute("total", total);
+            model.addAttribute("date_begin", date_begin);
+            model.addAttribute("date_end", date_end);
+        }
         return "dateAnalyse";
     }
 
@@ -116,9 +120,13 @@ public class OrderController {
     @RequestMapping("/salesManager/customerAnalyse")
     public String customerAnalyse(Model model,String customer_id){
         double total=orderService.customerAnalyse(customer_id);
-        model.addAttribute("total",total);
-        Customer customer=customerService.findCustomerById(Integer.parseInt(customer_id));
-        model.addAttribute("name",customer.getName());
+        if(total==-1){
+            model.addAttribute("customer_error", "客户编号无效！");
+        } else {
+            model.addAttribute("total", total);
+            Customer customer = customerService.findCustomerById(Integer.parseInt(customer_id));
+            model.addAttribute("name", customer.getName());
+        }
         return "customerAnalyse";
     }
 
@@ -132,11 +140,33 @@ public class OrderController {
     @RequestMapping("/salesManager/itemAnalyse")
     public String itemAnalyse(Model model,String item_id){
         double total=orderService.itemAnalyse(item_id);
-        model.addAttribute("total",total);
-        List<Item> list = itemService.getAllItem();
-        model.addAttribute("itemlist", list);
-        Item item=itemService.findItemById(item_id);
-        model.addAttribute("itemname",item.getItemName());
+        if(total==-1){
+            model.addAttribute("item_error", "请选择商品！");
+        } else {
+            model.addAttribute("total", total);
+            List<Item> list = itemService.getAllItem();
+            model.addAttribute("itemlist", list);
+            Item item = itemService.findItemById(item_id);
+            model.addAttribute("itemname", item.getItemName());
+        }
         return "itemAnalyse";
+    }
+
+    @RequestMapping("/salesman/myAnalysePage")
+    public String myAnalysePage(Model model){
+        return "myAnalyse";
+    }
+
+    @RequestMapping("/salesman/myAnalyse")
+    public String myAnalyse(Model model,String date_begin, String date_end){
+        double total = orderService.myAnalyse(date_begin,date_end);
+        if(total==-1){
+            model.addAttribute("date_error", "日期格式错误");
+        } else {
+            model.addAttribute("total", total);
+            model.addAttribute("date_begin", date_begin);
+            model.addAttribute("date_end", date_end);
+        }
+        return "myAnalyse";
     }
 }

@@ -59,5 +59,14 @@ public interface ContractDao {
 
     })
     List<Contract> findContractByCustomerId(int customer_id);
+
+    @Select("SELECT * FROM contract WHERE sales_id=#{sales_id}")
+    @Results({
+            @Result(property="Contract_Id",column="contract_id"),
+            @Result(property = "contract_itemList",column ="contract_id", many = @Many(select = "com.zimomo.lab4.dao.contract.Contract_ItemDao.findContractItem")),
+            @Result(property = "orderList",column = "contract_id",many=@Many(select = "com.zimomo.lab4.dao.order.OrderDao.findOrderByContractId"))
+
+    })
+    List<Contract> findContractBySalesId(int sales_id);
 }
 

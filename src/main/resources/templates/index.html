@@ -130,7 +130,15 @@
                             </a>
                         </li>
                     </div>
-                    <div sec:authorize="hasAnyRole('Salesman','SalesManager')">
+                    <div sec:authorize="hasRole('Salesman')">
+                        <li>
+                            <a href="javascript:;" onclick="xadmin.add_tab('我的业绩','/salesman/myAnalysePage')">
+                                <i class="iconfont left-nav-li" lay-tips="我的业绩">&#xe723;</i>
+                                <cite>我的业绩</cite>
+                            </a>
+                        </li>
+                    </div>
+                    <div sec:authorize="hasAnyRole('SalesManager')">
                     <li>
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="业绩统计">&#xe6ce;</i>
@@ -165,7 +173,7 @@
             <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
                 <ul class="layui-tab-title">
                     <li class="home">
-                        <i class="layui-icon">&#xe68e;</i>我的桌面</li></ul>
+                        <i class="layui-icon">&#xe68e;</i>个人信息</li></ul>
                 <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
                     <dl>
                         <dd data-type="this">关闭当前</dd>
@@ -174,7 +182,7 @@
                 </div>
                 <div class="layui-tab-content">
                     <div class="layui-tab-item layui-show">
-                        <iframe src='../static/welcome.html' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
+                        <iframe src='/information' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
                     </div>
                 </div>
                 <div id="tab_show"></div>

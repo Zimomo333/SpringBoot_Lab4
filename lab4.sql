@@ -33,8 +33,17 @@ CREATE TABLE `contract` (
   `edit` tinyint(1) NOT NULL,
   `finish` tinyint(1) NOT NULL,
   PRIMARY KEY (`contract_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `contract`
+--
+
+LOCK TABLES `contract` WRITE;
+/*!40000 ALTER TABLE `contract` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contract` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `contract_item`
@@ -51,6 +60,15 @@ CREATE TABLE `contract_item` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `contract_item`
+--
+
+LOCK TABLES `contract_item` WRITE;
+/*!40000 ALTER TABLE `contract_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `contract_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customer`
 --
 
@@ -65,8 +83,18 @@ CREATE TABLE `customer` (
   `email` varchar(30) NOT NULL,
   `location` varchar(30) NOT NULL,
   PRIMARY KEY (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `customer`
+--
+
+LOCK TABLES `customer` WRITE;
+/*!40000 ALTER TABLE `customer` DISABLE KEYS */;
+INSERT INTO `customer` VALUES (1,'客户','男','18126733239','120908719@qq.com','松山湖');
+/*!40000 ALTER TABLE `customer` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `delivery`
@@ -84,8 +112,17 @@ CREATE TABLE `delivery` (
   `telephone` int(11) NOT NULL,
   `location` varchar(30) NOT NULL,
   PRIMARY KEY (`delivery_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery`
+--
+
+LOCK TABLES `delivery` WRITE;
+/*!40000 ALTER TABLE `delivery` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivery` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `delivery_item`
@@ -100,6 +137,15 @@ CREATE TABLE `delivery_item` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `delivery_item`
+--
+
+LOCK TABLES `delivery_item` WRITE;
+/*!40000 ALTER TABLE `delivery_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivery_item` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `deliveryinfo`
@@ -117,6 +163,15 @@ CREATE TABLE `deliveryinfo` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `deliveryinfo`
+--
+
+LOCK TABLES `deliveryinfo` WRITE;
+/*!40000 ALTER TABLE `deliveryinfo` DISABLE KEYS */;
+/*!40000 ALTER TABLE `deliveryinfo` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `item`
 --
 
@@ -129,8 +184,18 @@ CREATE TABLE `item` (
   `itemprice` double NOT NULL,
   `resquantity` int(11) NOT NULL,
   PRIMARY KEY (`item_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item`
+--
+
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES (1,'2080Ti',10000,100),(2,'2070Super',4000,100);
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `keeper`
@@ -146,8 +211,18 @@ CREATE TABLE `keeper` (
   `telephone` varchar(13) NOT NULL,
   `email` varchar(30) NOT NULL,
   PRIMARY KEY (`keeper_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=556 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `keeper`
+--
+
+LOCK TABLES `keeper` WRITE;
+/*!40000 ALTER TABLE `keeper` DISABLE KEYS */;
+INSERT INTO `keeper` VALUES (555,'仓库管理员','女','18126733237','120908716@qq.com');
+/*!40000 ALTER TABLE `keeper` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `loginuser`
@@ -166,6 +241,16 @@ CREATE TABLE `loginuser` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `loginuser`
+--
+
+LOCK TABLES `loginuser` WRITE;
+/*!40000 ALTER TABLE `loginuser` DISABLE KEYS */;
+INSERT INTO `loginuser` VALUES ('salesman','666',1,'ROLE_Salesman'),('salesmanager','333',333,'ROLE_SalesManager'),('keeper','555',555,'ROLE_Keeper');
+/*!40000 ALTER TABLE `loginuser` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `order_item`
 --
 
@@ -178,6 +263,15 @@ CREATE TABLE `order_item` (
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `order_item`
+--
+
+LOCK TABLES `order_item` WRITE;
+/*!40000 ALTER TABLE `order_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order_item` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `ordertable`
@@ -193,8 +287,17 @@ CREATE TABLE `ordertable` (
   `totalprice` double NOT NULL,
   `finish` tinyint(1) NOT NULL,
   PRIMARY KEY (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ordertable`
+--
+
+LOCK TABLES `ordertable` WRITE;
+/*!40000 ALTER TABLE `ordertable` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ordertable` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `purchase`
@@ -209,8 +312,17 @@ CREATE TABLE `purchase` (
   `finish` tinyint(1) NOT NULL,
   `date` date NOT NULL,
   PRIMARY KEY (`purchase_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `purchase`
+--
+
+LOCK TABLES `purchase` WRITE;
+/*!40000 ALTER TABLE `purchase` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `purchase_item`
@@ -227,6 +339,15 @@ CREATE TABLE `purchase_item` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `purchase_item`
+--
+
+LOCK TABLES `purchase_item` WRITE;
+/*!40000 ALTER TABLE `purchase_item` DISABLE KEYS */;
+/*!40000 ALTER TABLE `purchase_item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `salesman`
 --
 
@@ -240,8 +361,18 @@ CREATE TABLE `salesman` (
   `telephone` varchar(13) NOT NULL,
   `email` varchar(30) NOT NULL,
   PRIMARY KEY (`sales_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=323 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesman`
+--
+
+LOCK TABLES `salesman` WRITE;
+/*!40000 ALTER TABLE `salesman` DISABLE KEYS */;
+INSERT INTO `salesman` VALUES (1,'销售员','女','18126733237','120908716@qq.com');
+/*!40000 ALTER TABLE `salesman` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `salesmanager`
@@ -257,8 +388,18 @@ CREATE TABLE `salesmanager` (
   `telephone` varchar(13) NOT NULL,
   `email` varchar(30) NOT NULL,
   PRIMARY KEY (`manager_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=124 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=334 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `salesmanager`
+--
+
+LOCK TABLES `salesmanager` WRITE;
+/*!40000 ALTER TABLE `salesmanager` DISABLE KEYS */;
+INSERT INTO `salesmanager` VALUES (333,'销售经理','男','18126733238','120908717@qq.com');
+/*!40000 ALTER TABLE `salesmanager` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -269,4 +410,4 @@ CREATE TABLE `salesmanager` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-25 11:39:51
+-- Dump completed on 2019-12-25 13:31:55
